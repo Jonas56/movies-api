@@ -1,5 +1,6 @@
 package com.marsox.movies.jwt;
 
+import com.marsox.movies.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -17,7 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class JwtVerifier extends OncePerRequestFilter {
@@ -30,14 +30,9 @@ public class JwtVerifier extends OncePerRequestFilter {
             return;
         }
         try {
-            String token = authorization.replace("Bearer ", "");
-            String secretKey = "mySecretsecretmySecretsecretmySecretsecretmySecretsecret";
-            Jws<Claims> claimsJwts = Jwts.parserBuilder()
-                    .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
-                    .build()
-                    .parseClaimsJws(token);
+            Jws<Claims> claimsJWTs = JwtUtil.extractClaimsFromToken(request);
 
-            Claims body = claimsJwts.getBody();
+            Claims body = claimsJWTs.getBody();
 
             String username = body.getSubject();
 
