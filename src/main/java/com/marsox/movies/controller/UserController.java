@@ -1,5 +1,6 @@
 package com.marsox.movies.controller;
 
+import com.marsox.movies.dto.UserDto;
 import com.marsox.movies.model.User;
 import com.marsox.movies.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.ACCEPTED);
     }
 
