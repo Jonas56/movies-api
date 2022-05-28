@@ -1,0 +1,34 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: moviesdb
+    volumes:
+      - moviedb:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    container_name: postgres_movie_db
+#  spring-api:
+#    build:
+#      context: ./
+#      dockerfile: Dockerfile
+#    volumes:
+#      - ./:/app
+#      - ./.m2:/root/.m2
+#    working_dir: /app
+#    command: sh run.sh
+#    ports:
+#      - 8080:8080
+#      - 35729:35729
+#      - 5005:5005
+#    depends_on:
+#      - db
+
+volumes:
+  moviedb:
