@@ -28,7 +28,7 @@ public class ApplicationErrorHandler {
     @ExceptionHandler(ResponseStatusException.class)
     public Map<String, String> handleBadRequests(ResponseStatusException responseStatusException) {
         Map<String, String> errorMap = new HashMap<>();
-        errorMap.put("message", responseStatusException.getLocalizedMessage());
+        errorMap.put("message", responseStatusException.getReason());
         return errorMap;
     }
 
