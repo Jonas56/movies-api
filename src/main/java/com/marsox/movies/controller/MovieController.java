@@ -1,5 +1,7 @@
 package com.marsox.movies.controller;
 
+import com.marsox.movies.dto.MovieDto;
+import com.marsox.movies.dto.MovieEssentialDto;
 import com.marsox.movies.model.Movie;
 import com.marsox.movies.service.MovieService;
 import org.springframework.http.HttpStatus;
@@ -21,7 +23,7 @@ public class MovieController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Movie>> getMovies(@RequestParam(required = false) String name) {
+    public ResponseEntity<List<MovieEssentialDto>> getMovies(@RequestParam(required = false) String name) {
         if (name == null) {
             return new ResponseEntity<>(movieService.getAllMovies(), HttpStatus.ACCEPTED);
         }
@@ -29,12 +31,12 @@ public class MovieController {
     }
 
     @GetMapping("/{movieId}")
-    public ResponseEntity<Movie> getMovieById(@PathVariable Long movieId) {
+    public ResponseEntity<MovieDto> getMovieById(@PathVariable Long movieId) {
         return new ResponseEntity<>(movieService.getMovieById(movieId), HttpStatus.ACCEPTED);
     }
 
     @PostMapping
-    public ResponseEntity<Movie> addNewMovie(@RequestBody @Valid Movie m) {
+    public ResponseEntity<MovieDto> addNewMovie(@RequestBody @Valid Movie m) {
         return new ResponseEntity<>(movieService.addNewMovie(m), HttpStatus.CREATED);
     }
 
@@ -44,8 +46,8 @@ public class MovieController {
     }
 
     @PutMapping("/{movieId}")
-    public Movie updateMovie(@PathVariable("movieId") Long movieId, @RequestBody Movie m) {
-        return movieService.updateMovie(movieId, m);
+    public ResponseEntity<MovieDto> updateMovie(@PathVariable("movieId") Long movieId, @RequestBody Movie m) {
+        return new ResponseEntity<>(movieService.updateMovie(movieId, m), HttpStatus.CREATED);
     }
 
 }

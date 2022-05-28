@@ -1,6 +1,10 @@
 package com.marsox.movies.service;
 
+import com.marsox.movies.dto.FavoritesDto;
+import com.marsox.movies.dto.MovieEssentialDto;
+import com.marsox.movies.dto.MovieImagesDto;
 import com.marsox.movies.model.Movie;
+import com.marsox.movies.model.MovieImage;
 import com.marsox.movies.model.User;
 import com.marsox.movies.repository.MovieRepository;
 import com.marsox.movies.repository.UserRepository;
@@ -11,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserMoviesService {
@@ -24,15 +29,14 @@ public class UserMoviesService {
         this.movieRepository = movieRepository;
     }
 
-    public Set<Movie> getAllFavorites(HttpServletRequest request) {
+    public FavoritesDto getUserFavorites(HttpServletRequest request) {
         Jws<Claims> claimsJWTs = jwtUtil.extractClaimsFromToken(request);
         Claims body = claimsJWTs.getBody();
         String username = body.getSubject();
-        return userRepository.findByUsername(username)
-                .getMovies();
+        return convertEntityToFavoritesDto(userRepository.findByUsername(username));
     }
 
-    public Set<Movie> addToFavorites(HttpServletRequest request, Long movieId) {
+    public FavoritesDto addToFavorites(HttpServletRequest request, Long movieId) {
         Jws<Claims> claimsJWTs = jwtUtil.extractClaimsFromToken(request);
         Claims body = claimsJWTs.getBody();
         String username = body.getSubject();
@@ -45,6 +49,25 @@ public class UserMoviesService {
         }};
         user.getMovies().add(new Movie(movieId));
         user.setMovies(movies);
-        return userRepository.save(user).getMovies();
+        return convertEntityToFavoritesDto(userRepository.save(user));
+    }
+
+    private FavoritesDto convertEntityToFavoritesDto(User user){
+        return FavoritesDto.build(
+                user.getUsername(),
+                user.getMovies().stream().map(this::convertEntityToMovieEssentialsDto).collect(Collectors.toSet())
+        );
+    }
+
+    private MovieEssentialDto convertEntityToMovieEssentialsDto(Movie movie) {
+        return MovieEssentialDto.build(
+                movie.getName(), movie.getImdbRating(),
+                movie.getTrailerLink(), movie.getGenre(),
+                movie.getMovieImages().stream().map(this::convertEntityToMovieImagesDto).collect(Collectors.toSet())
+        );
+    }
+
+    private MovieImagesDto convertEntityToMovieImagesDto(MovieImage movieImage) {
+        return MovieImagesDto.build(movieImage.getLink());
     }
 }
