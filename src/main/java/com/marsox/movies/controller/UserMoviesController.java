@@ -1,5 +1,6 @@
 package com.marsox.movies.controller;
 
+import com.marsox.movies.dto.FavoritesDto;
 import com.marsox.movies.model.Movie;
 import com.marsox.movies.service.UserMoviesService;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,12 @@ public class UserMoviesController {
     }
 
     @GetMapping("/favorites")
-    public Set<Movie> getAllFavorites(HttpServletRequest request) {
-        return userMoviesService.getAllFavorites(request);
+    public FavoritesDto getUserFavorites(HttpServletRequest request) {
+        return userMoviesService.getUserFavorites(request);
     }
 
     @PostMapping("/favorites/{movieId}")
-    public Set<Movie> addMovieToFavorites(HttpServletRequest request, @PathVariable Long movieId) {
+    public FavoritesDto addMovieToFavorites(HttpServletRequest request, @PathVariable Long movieId) {
         return userMoviesService.addToFavorites(request, movieId);
     }
 }
