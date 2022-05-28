@@ -1,6 +1,5 @@
 package com.marsox.movies.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +9,6 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Set;
 
 @Entity
 @Table(name = "actors")

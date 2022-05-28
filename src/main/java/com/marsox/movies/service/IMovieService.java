@@ -3,7 +3,6 @@ package com.marsox.movies.service;
 import com.marsox.movies.dto.MovieDto;
 import com.marsox.movies.dto.MovieEssentialDto;
 import com.marsox.movies.model.Movie;
-import com.marsox.movies.validator.FieldValueExists;
 
 import java.util.List;
 
