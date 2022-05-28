@@ -23,7 +23,6 @@ public class FavoritesServiceImp implements IFavoritesService {
 
     private final UserRepository userRepository;
     private final MovieRepository movieRepository;
-    private final JwtUtil jwtUtil = new JwtUtil();
 
     public FavoritesServiceImp(UserRepository userRepository, MovieRepository movieRepository) {
         this.userRepository = userRepository;
@@ -31,14 +30,14 @@ public class FavoritesServiceImp implements IFavoritesService {
     }
 
     public FavoritesDto getUserFavorites(HttpServletRequest request) {
-        Jws<Claims> claimsJWTs = jwtUtil.extractClaimsFromToken(request);
+        Jws<Claims> claimsJWTs = JwtUtil.extractClaimsFromToken(request);
         Claims body = claimsJWTs.getBody();
         String username = body.getSubject();
         return convertEntityToFavoritesDto(userRepository.findByUsername(username));
     }
 
     public FavoritesDto addToFavorites(HttpServletRequest request, Long movieId) {
-        Jws<Claims> claimsJWTs = jwtUtil.extractClaimsFromToken(request);
+        Jws<Claims> claimsJWTs = JwtUtil.extractClaimsFromToken(request);
         Claims body = claimsJWTs.getBody();
         String username = body.getSubject();
         User user = userRepository.findByUsername(username);
