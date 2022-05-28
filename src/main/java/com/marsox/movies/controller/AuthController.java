@@ -1,5 +1,7 @@
 package com.marsox.movies.controller;
 
+import com.marsox.movies.dto.AuthDto;
+import com.marsox.movies.dto.UserDto;
 import com.marsox.movies.model.User;
 import com.marsox.movies.service.AuthService;
 import org.springframework.http.HttpStatus;
@@ -22,12 +24,12 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> register(@RequestBody @Valid User user) {
+    public ResponseEntity<UserDto> register(@RequestBody @Valid User user) {
         return new ResponseEntity<>(authService.addNewUser(user), HttpStatus.CREATED);
     }
 
     @GetMapping("/refreshToken")
-    public Map<String, String> refreshToken(HttpServletRequest request, HttpServletResponse response) {
+    public AuthDto refreshToken(HttpServletRequest request, HttpServletResponse response) {
         // TODO: Implement refresh token endpoint
 //        String authorization = request.getHeader("Authorization");
 //        if (!Strings.isEmpty(authorization) || authorization.startsWith("Bearer")) {

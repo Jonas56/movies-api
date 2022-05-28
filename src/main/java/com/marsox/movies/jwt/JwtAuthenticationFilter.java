@@ -1,6 +1,7 @@
 package com.marsox.movies.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.marsox.movies.dto.AuthDto;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,8 +18,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -58,12 +57,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusWeeks(2)))
                 .signWith(Keys.hmacShaKeyFor("SecretsecertSecretsecertSecretsecertSecretsecertSecretsecert".getBytes(StandardCharsets.UTF_8)))
                 .compact();
-
-        Map<String, String> tokens = new HashMap<>();
-        tokens.put("access-token", accessToken);
-        tokens.put("refresh-token", refreshToken);
-
+        AuthDto authDto = AuthDto.build(
+                accessToken, refreshToken
+        );
         response.setContentType("application/json");
-        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+        new ObjectMapper().writeValue(response.getOutputStream(), authDto);
     }
 }

@@ -1,5 +1,6 @@
 package com.marsox.movies.service;
 
+import com.marsox.movies.dto.UserDto;
 import com.marsox.movies.model.User;
 import com.marsox.movies.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,8 +17,14 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User addNewUser(User user) {
+    public UserDto addNewUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        return convertEntityToDto(userRepository.save(user));
+    }
+
+    private UserDto convertEntityToDto(User user) {
+        return UserDto.build(
+                user.getFullName(), user.getUsername(), user.getEmail(), user.getMovies()
+        );
     }
 }
