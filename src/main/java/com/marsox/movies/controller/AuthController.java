@@ -3,7 +3,7 @@ package com.marsox.movies.controller;
 import com.marsox.movies.dto.AuthDto;
 import com.marsox.movies.dto.UserDto;
 import com.marsox.movies.model.User;
-import com.marsox.movies.service.AuthService;
+import com.marsox.movies.service.IAuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,15 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/v1", produces = "application/json")
 public class AuthController {
 
-    private final AuthService authService;
+    private final IAuthService authService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(IAuthService authService) {
         this.authService = authService;
     }
 

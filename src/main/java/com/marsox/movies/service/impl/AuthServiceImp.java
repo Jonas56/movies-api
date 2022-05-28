@@ -1,18 +1,19 @@
-package com.marsox.movies.service;
+package com.marsox.movies.service.impl;
 
 import com.marsox.movies.dto.UserDto;
 import com.marsox.movies.model.User;
 import com.marsox.movies.repository.UserRepository;
+import com.marsox.movies.service.IAuthService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthService {
+public class AuthServiceImp implements IAuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthServiceImp(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }

@@ -3,7 +3,7 @@ package com.marsox.movies.controller;
 import com.marsox.movies.dto.MovieDto;
 import com.marsox.movies.dto.MovieEssentialDto;
 import com.marsox.movies.model.Movie;
-import com.marsox.movies.service.MovieService;
+import com.marsox.movies.service.IMovieService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +16,9 @@ import java.util.List;
 //@CrossOrigin(origins = "*")
 public class MovieController {
 
-    private final MovieService movieService;
+    private final IMovieService movieService;
 
-    public MovieController(MovieService movieService) {
+    public MovieController(IMovieService movieService) {
         this.movieService = movieService;
     }
 

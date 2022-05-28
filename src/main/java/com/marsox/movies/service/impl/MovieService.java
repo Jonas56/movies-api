@@ -1,4 +1,4 @@
-package com.marsox.movies.service;
+package com.marsox.movies.service.impl;
 
 import com.marsox.movies.dto.*;
 import com.marsox.movies.model.Actor;
@@ -8,6 +8,7 @@ import com.marsox.movies.model.MovieImage;
 import com.marsox.movies.repository.ActorRepository;
 import com.marsox.movies.repository.DirectorRepository;
 import com.marsox.movies.repository.MovieRepository;
+import com.marsox.movies.service.IMovieService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,7 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class MovieService {
+public class MovieService implements IMovieService {
 
     private final MovieRepository movieRepository;
     private final ActorRepository actorRepository;

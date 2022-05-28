@@ -1,20 +1,18 @@
 package com.marsox.movies.controller;
 
 import com.marsox.movies.dto.FavoritesDto;
-import com.marsox.movies.model.Movie;
-import com.marsox.movies.service.UserMoviesService;
+import com.marsox.movies.service.IFavoritesService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/api/v1", produces = "application/json")
 public class UserMoviesController {
 
-    private final UserMoviesService userMoviesService;
+    private final IFavoritesService userMoviesService;
 
-    public UserMoviesController(UserMoviesService userMoviesService) {
+    public UserMoviesController(IFavoritesService userMoviesService) {
         this.userMoviesService = userMoviesService;
     }
 

@@ -1,4 +1,4 @@
-package com.marsox.movies.service;
+package com.marsox.movies.service.impl;
 
 import com.marsox.movies.dto.FavoritesDto;
 import com.marsox.movies.dto.MovieEssentialDto;
@@ -8,6 +8,7 @@ import com.marsox.movies.model.MovieImage;
 import com.marsox.movies.model.User;
 import com.marsox.movies.repository.MovieRepository;
 import com.marsox.movies.repository.UserRepository;
+import com.marsox.movies.service.IFavoritesService;
 import com.marsox.movies.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -18,13 +19,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class UserMoviesService {
+public class FavoritesServiceImp implements IFavoritesService {
 
     private final UserRepository userRepository;
     private final MovieRepository movieRepository;
     private final JwtUtil jwtUtil = new JwtUtil();
 
-    public UserMoviesService(UserRepository userRepository, MovieRepository movieRepository) {
+    public FavoritesServiceImp(UserRepository userRepository, MovieRepository movieRepository) {
         this.userRepository = userRepository;
         this.movieRepository = movieRepository;
     }
