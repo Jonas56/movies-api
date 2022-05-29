@@ -29,21 +29,11 @@ public class JwtVerifier extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        try {
-            Jws<Claims> claimsJWTs = JwtUtil.extractClaimsFromToken(request);
-
-            Claims body = claimsJWTs.getBody();
-
-            String username = body.getSubject();
-
-            Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        } catch (JwtException e) {
-
-            throw new IllegalStateException("Token cannot be trusted");
-        }
+        Jws<Claims> claimsJWTs = JwtUtil.extractClaimsFromToken(request);
+        Claims body = claimsJWTs.getBody();
+        String username = body.getSubject();
+        Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         filterChain.doFilter(request, response);
     }

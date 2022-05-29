@@ -2,8 +2,16 @@ package com.marsox.movies.controller;
 
 import com.marsox.movies.dto.AuthDto;
 import com.marsox.movies.dto.UserDto;
+import com.marsox.movies.dto.UserRegistrationDto;
 import com.marsox.movies.model.User;
 import com.marsox.movies.service.IAuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,16 +25,29 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final IAuthService authService;
+    private final ModelMapper modelMapper;
 
-    public AuthController(IAuthService authService) {
+    public AuthController(IAuthService authService, ModelMapper modelMapper) {
         this.authService = authService;
+        this.modelMapper = modelMapper;
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserDto> register(@RequestBody @Valid User user) {
+    @Operation(summary = "Register new User")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Successfully registered",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Unable to signup", content = {
+                    @Content(mediaType = "application/json")
+            }),
+    })
+    public ResponseEntity<UserDto> register(@RequestBody @Valid UserRegistrationDto userRegistrationDto) {
+        User user = modelMapper.map(userRegistrationDto, User.class);
         return new ResponseEntity<>(authService.addNewUser(user), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Refresh Token", security = @SecurityRequirement(name = "bearerAuth"))
     @GetMapping("/refreshToken")
     public AuthDto refreshToken(HttpServletRequest request, HttpServletResponse response) {
         // TODO: Implement refresh token endpoint
