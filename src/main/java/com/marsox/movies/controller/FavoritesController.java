@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(value = "/api/v1", produces = "application/json")
-public class UserMoviesController {
+public class FavoritesController {
 
     private final IFavoritesService userMoviesService;
 
-    public UserMoviesController(IFavoritesService userMoviesService) {
+    public FavoritesController(IFavoritesService userMoviesService) {
         this.userMoviesService = userMoviesService;
     }
 
