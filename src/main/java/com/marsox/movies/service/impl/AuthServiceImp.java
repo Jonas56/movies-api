@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import java.util.HashSet;
 
 @Service
 public class AuthServiceImp implements IAuthService {
@@ -31,7 +32,7 @@ public class AuthServiceImp implements IAuthService {
 
     private UserDto convertEntityToDto(User user) {
         return UserDto.build(
-                user.getFullName(), user.getUsername(), user.getEmail(), user.getMovies()
+                user.getFullName(), user.getUsername(), user.getEmail(), new HashSet<>()
         );
     }
 }
