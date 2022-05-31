@@ -3,7 +3,8 @@ package com.marsox.movies.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.UniqueElements;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -11,7 +12,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "movies")
@@ -45,11 +48,13 @@ public class Movie implements Serializable {
 
     @Size(min=1, message = "You should provide at least one image")
     @OneToMany(targetEntity = MovieImage.class, cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "movie_id", referencedColumnName = "id")
     private Set<MovieImage> movieImages;
 
     @NotNull(message = "You should provide at least one actor!")
     @ManyToMany(targetEntity = Actor.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(name = "actors_movies",
             joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "id"))
@@ -57,6 +62,7 @@ public class Movie implements Serializable {
 
     @NotNull(message = "Director field cannot be null!")
     @ManyToOne(targetEntity = Director.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "director_id", referencedColumnName = "id")
     private Director director;
 

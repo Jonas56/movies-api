@@ -41,9 +41,9 @@ public class MovieController {
     @GetMapping
     public ResponseEntity<List<MovieEssentialDto>> getMovies(@RequestParam(required = false) String name) {
         if (name == null) {
-            return new ResponseEntity<>(movieService.getAllMovies(), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(movieService.getAllMovies(), HttpStatus.OK);
         }
-        return new ResponseEntity<>(movieService.getMoviesByName(name), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(movieService.getMoviesByName(name), HttpStatus.OK);
     }
 
     @Operation(summary = "Get movie by id", security = @SecurityRequirement(name = "bearerAuth"))
@@ -60,7 +60,7 @@ public class MovieController {
     })
     @GetMapping("/{movieId}")
     public ResponseEntity<MovieDto> getMovieById(@PathVariable Long movieId) {
-        return new ResponseEntity<>(movieService.getMovieById(movieId), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(movieService.getMovieById(movieId), HttpStatus.OK);
     }
 
     @Operation(summary = "Add new Movie", security = @SecurityRequirement(name = "bearerAuth"))

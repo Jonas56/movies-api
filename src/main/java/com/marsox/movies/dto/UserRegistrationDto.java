@@ -16,7 +16,7 @@ public class UserRegistrationDto {
     private String fullName;
     @NotEmpty(message = "username cannot be empty!")
     private String username;
-    @Email(message = "email cannot be empty!")
+    @Email(message = "Please provide valid email")
     @NotEmpty(message = "email cannot be empty!")
     private String email;
     @NotEmpty(message = "password cannot be empty!")

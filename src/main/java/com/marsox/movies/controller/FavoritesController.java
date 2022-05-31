@@ -1,7 +1,7 @@
 package com.marsox.movies.controller;
 
 import com.marsox.movies.dto.FavoritesDto;
-import com.marsox.movies.dto.UserDto;
+
 import com.marsox.movies.service.IFavoritesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +49,7 @@ public class FavoritesController {
                     @Content(mediaType = "application/json")
             }),
     })
-    public FavoritesDto addMovieToFavorites(HttpServletRequest request, @PathVariable Long movieId) {
-        return userMoviesService.addToFavorites(request, movieId);
+    public ResponseEntity<FavoritesDto> addMovieToFavorites(HttpServletRequest request, @PathVariable Long movieId) {
+        return new ResponseEntity<>(userMoviesService.addToFavorites(request, movieId), HttpStatus.CREATED);
     }
 }
