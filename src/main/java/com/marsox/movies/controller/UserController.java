@@ -41,7 +41,7 @@ public class UserController {
             })
     })
     public ResponseEntity<List<UserDto>> getAllUsers() {
-        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
 }
