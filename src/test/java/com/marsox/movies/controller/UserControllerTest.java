@@ -8,6 +8,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,12 +46,14 @@ class UserControllerTest extends AbstractTest {
         String uri = "/api/v1/users";
         // when
         MvcResult mvcResult = super.mvc.perform(get(uri)
+                        .header("Authorization", "Bearer " + accessToken + "ruined")
                 )
-                .andDo(print())
                 .andReturn();
         // then
         int status = mvcResult.getResponse().getStatus();
         assertThat(status).isEqualTo(403);
+        Map<String, String> responseDto = super.mapFromJson(mvcResult.getResponse().getContentAsString(), Map.class);
+        assertThat(responseDto.get("message")).isNotNull();
     }
 
     public void setAccessToken(String accessToken) {
