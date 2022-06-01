@@ -1,10 +1,8 @@
 package com.marsox.movies.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.marsox.movies.AbstractTest;
-import com.marsox.movies.dto.UserDto;
-import com.marsox.movies.dto.UserRegistrationDto;
-import com.marsox.movies.model.User;
+import com.marsox.movies.user.UserDto;
+import com.marsox.movies.auth.UserRegistrationDto;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.HashSet;
 import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;

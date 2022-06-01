@@ -1,13 +1,18 @@
 package com.marsox.movies.config;
 
-import com.marsox.movies.model.*;
-import com.marsox.movies.service.IAuthService;
-import com.marsox.movies.service.IMovieService;
+import com.marsox.movies.actor.Actor;
+import com.marsox.movies.auth.IAuthService;
+import com.marsox.movies.director.Director;
+import com.marsox.movies.movie.IMovieService;
+import com.marsox.movies.movie.Movie;
+import com.marsox.movies.movie.MovieImage;
+import com.marsox.movies.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -19,6 +24,7 @@ public class LoadDatabase {
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Bean
+    @Profile("!prod")
     CommandLineRunner initDatabase(IAuthService authService, IMovieService movieService) {
         Movie m = new Movie();
         m.setName("Reality Bites");
