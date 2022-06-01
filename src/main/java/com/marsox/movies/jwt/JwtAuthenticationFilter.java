@@ -2,8 +2,7 @@ package com.marsox.movies.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marsox.movies.dto.AuthDto;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
+import com.marsox.movies.utils.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,9 +14,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.util.Date;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -44,19 +40,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        String accessToken = Jwts.builder()
-                .setSubject(authResult.getName())
-                .setIssuedAt(new Date())
-                .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusWeeks(2)))
-                .signWith(Keys.hmacShaKeyFor("mySecretsecretmySecretsecretmySecretsecretmySecretsecret".getBytes(StandardCharsets.UTF_8)))
-                .compact();
+        String accessToken = JwtUtil.issueToken(authResult, JwtUtil.EXPIRATION_ACCESS_TOKEN);
+        String refreshToken = JwtUtil.issueToken(authResult, JwtUtil.EXPIRATION_REFRESH_TOKEN);
 
-        String refreshToken = Jwts.builder()
-                .setSubject(authResult.getName())
-                .setIssuedAt(new Date())
-                .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusWeeks(2)))
-                .signWith(Keys.hmacShaKeyFor("SecretsecertSecretsecertSecretsecertSecretsecertSecretsecert".getBytes(StandardCharsets.UTF_8)))
-                .compact();
         AuthDto authDto = AuthDto.build(
                 accessToken, refreshToken
         );
