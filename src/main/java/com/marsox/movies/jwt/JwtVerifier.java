@@ -1,13 +1,10 @@
 package com.marsox.movies.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.marsox.movies.config.LoadDatabase;
 import com.marsox.movies.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import org.apache.logging.log4j.util.Strings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
