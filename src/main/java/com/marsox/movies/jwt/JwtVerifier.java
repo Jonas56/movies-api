@@ -24,16 +24,24 @@ public class JwtVerifier extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().equals("/api/v1/signup")
-                || request.getServletPath().contains("/swagger-ui")
-                || request.getServletPath().contains("/v3/api-docs")
+        if (request.getRequestURI().equals("/api/v1/signup")
+                || request.getRequestURI().contains("/swagger-ui")
+                || request.getRequestURI().contains("/v3/api-docs")
         ) {
             filterChain.doFilter(request, response);
             return;
         }
         String authorization = request.getHeader(JwtUtil.AUTH_HEADER);
         if (Strings.isEmpty(authorization) || !authorization.startsWith("Bearer")) {
-            filterChain.doFilter(request, response);
+            response.setContentType("application/json");
+            response.setStatus(403);
+            Map<String, ?> errorResponse = new HashMap<>() {{
+                put("message", "Access Denied");
+                put("path", request.getServletPath());
+                put("status", 403);
+            }};
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(response.getOutputStream(), errorResponse);
             return;
         }
         try {
