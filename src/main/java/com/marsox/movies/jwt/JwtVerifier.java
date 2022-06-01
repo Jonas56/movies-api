@@ -1,11 +1,9 @@
 package com.marsox.movies.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marsox.movies.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,22 +17,41 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JwtVerifier extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        String authorization = request.getHeader("Authorization");
+        if (request.getServletPath().equals("/api/v1/signup")
+                || request.getServletPath().contains("/swagger-ui")
+                || request.getServletPath().contains("/v3/api-docs")
+        ) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        String authorization = request.getHeader(JwtUtil.AUTH_HEADER);
         if (Strings.isEmpty(authorization) || !authorization.startsWith("Bearer")) {
             filterChain.doFilter(request, response);
             return;
         }
-        Jws<Claims> claimsJWTs = JwtUtil.extractClaimsFromToken(request);
-        Claims body = claimsJWTs.getBody();
-        String username = body.getSubject();
-        Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        try {
+            Jws<Claims> claimsJWTs = JwtUtil.extractClaimsFromToken(request);
+            Claims body = claimsJWTs.getBody();
+            String username = body.getSubject();
+            Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response);
+        } catch (Exception exception) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", exception.getLocalizedMessage());
+            response.setContentType("application/json");
+            response.setStatus(403);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(response.getOutputStream(), errorResponse);
+        }
+
     }
 }
