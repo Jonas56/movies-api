@@ -12,23 +12,22 @@ services:
     volumes:
       - moviedb:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - "5432:5432"
     container_name: postgres_movie_db
-#  spring-api:
-#    build:
-#      context: ./
-#      dockerfile: Dockerfile
-#    volumes:
-#      - ./:/app
-#      - ./.m2:/root/.m2
-#    working_dir: /app
-#    command: sh run.sh
-#    ports:
-#      - 8080:8080
-#      - 35729:35729
-#      - 5005:5005
-#    depends_on:
-#      - db
+
+  spring-api:
+    build: ./
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+    container_name: spring_backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/moviesdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
 
 volumes:
   moviedb:

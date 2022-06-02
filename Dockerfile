@@ -1,6 +1,9 @@
-FROM eclipse-temurin:11
-RUN apt-get update && apt-get -y upgrade
-RUN apt-get install -y inotify-tools dos2unix
-ENV HOME=/app
-RUN mkdir -p $HOME
-WORKDIR $HOME
+FROM openjdk:11
+
+WORKDIR /usr/src/movies
+
+EXPOSE 8081
+
+COPY target/*.jar app.jar
+
+CMD ["java", "-jar", "app.jar"]
