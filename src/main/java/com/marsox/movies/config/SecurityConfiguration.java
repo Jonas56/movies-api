@@ -2,7 +2,7 @@ package com.marsox.movies.config;
 
 import com.marsox.movies.jwt.JwtAuthenticationFilter;
 import com.marsox.movies.jwt.JwtVerifier;
-import com.marsox.movies.service.CustomUserDetailsService;
+import com.marsox.movies.user.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;

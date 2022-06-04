@@ -1,7 +1,8 @@
 package com.marsox.movies.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.marsox.movies.dto.AuthDto;
+import com.marsox.movies.auth.AuthDto;
+import com.marsox.movies.auth.UsernameAndPasswordAuthenticationRequest;
 import com.marsox.movies.utils.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
