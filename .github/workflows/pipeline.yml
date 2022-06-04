@@ -23,11 +23,9 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: maven
-      - name: maven build, clean
+      - name: build, clean, test
         run: |
           mvn clean package
-      - name: test
-        run: mvn test
 #      - name: Deploy to Heroku
 #        if: ${{ github.ref_name == 'main' }}
 #        uses: akhileshns/heroku-deploy@v3.12.12 # This is the actual action
