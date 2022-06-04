@@ -1,7 +1,7 @@
 package com.marsox.movies.controller;
 
 import com.marsox.movies.AbstractTest;
-import com.marsox.movies.dto.FavoritesDto;
+import com.marsox.movies.favorites.FavoritesDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MvcResult;

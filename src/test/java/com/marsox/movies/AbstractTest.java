@@ -2,7 +2,7 @@ package com.marsox.movies;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.marsox.movies.dto.AuthDto;
+import com.marsox.movies.auth.AuthDto;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParseException;
