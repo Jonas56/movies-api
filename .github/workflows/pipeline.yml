@@ -35,11 +35,12 @@ jobs:
           email: ${{secrets.HEROKU_EMAIL}}
       - name: Push to Docker Hub
         if: ${{ github.ref_name == 'main' }}
-        uses: peter-evans/dockerhub-description@v3
+        uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: peterevans/dockerhub-description
-          short-description: ${{ github.event.repository.description }}
-
+          image: repo/image
+          tags: v1, latest
+          registry: registry-url.io
+          dockerfile: Dockerfile.ci
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
