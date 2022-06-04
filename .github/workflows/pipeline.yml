@@ -26,13 +26,13 @@ jobs:
       - name: build, clean, test
         run: |
           mvn clean package
-#      - name: Deploy to Heroku
-#        if: ${{ github.ref_name == 'main' }}
-#        uses: akhileshns/heroku-deploy@v3.12.12 # This is the actual action
-#        with:
-#          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-#          heroku_app_name: "spring-movies-api" # should be unique
-#          heroku_email: "youneslamkhanter02@gmail.com"
+      - name: Deploy to Heroku
+        if: ${{ github.ref_name == 'main' }}
+        uses: gonuit/heroku-docker-deploy@v1.3.3 # This is the actual action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}} # should be unique
+          email: ${{secrets.HEROKU_EMAIL}}
       - name: Push to Docker Hub
         if: ${{ github.ref_name == 'main' }}
         uses: peter-evans/dockerhub-description@v3
