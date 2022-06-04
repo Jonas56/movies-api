@@ -28,11 +28,6 @@ jobs:
           mvn clean package
       - name: test
         run: mvn test
-        env:
-          SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
-          SPRING_DATASOURCE_USERNAME: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
-          SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
-          SPRING_JPA_HIBERNATE_DDL_AUTO: ${{ secrets.SPRING_JPA_HIBERNATE_DDL_AUTO }}
 #      - name: Deploy to Heroku
 #        if: ${{ github.ref_name == 'main' }}
 #        uses: akhileshns/heroku-deploy@v3.12.12 # This is the actual action
